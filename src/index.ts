@@ -38,6 +38,82 @@ words.push('1');
 
 console.log(words);
 
+const jonas = {
+    name: 'Jonas',
+    age: 99,
+    isMaried: true,
+    favoriteColor: '',
+};
+
+console.log(jonas);
+
+jonas.favoriteColor = 'red';
+console.log(jonas);
+
+type HouseDetails = {
+    city: string;
+    street: string;
+    footage?: number;
+    floors?: number;
+    rooms?: number;
+};
+
+type Food = {
+    name: string;
+    size: 'small' | 'medium' | 'large';
+};
+
+type User = {
+    name: string;
+    age: number;
+    isMarried: boolean;
+    houseInfo: HouseDetails;
+    favoriteFood: Food[];
+};
+
+const allUsers: User[] = [
+    {
+        name: 'Jonas',
+        age: 99,
+        isMarried: true,
+        houseInfo: {
+            city: 'Baisogala',
+            street: 'Gedemino str.',
+            footage: 500,
+        },
+        favoriteFood: [
+            { name: 'Food-1', size: 'small' },
+            { name: 'Food-2', size: 'medium' },
+            { name: 'Food-3', size: 'large' },
+            { name: 'Food-4', size: 'large' },
+        ],
+    },
+    {
+        name: 'Maryte',
+        age: 88,
+        isMarried: true,
+        houseInfo: {
+            city: 'Baisogala',
+            street: 'Gedemino str.',
+            footage: 500,
+            floors: 3,
+            rooms: 7,
+        },
+        favoriteFood: [
+            { name: 'Food-1', size: 'small' },
+            { name: 'Food-2', size: 'medium' },
+            { name: 'Food-3', size: 'large' },
+        ],
+    },
+];
+
+const inactiveUser: User[] = [
+    allUsers[0],
+];
+
+const activeUser: User[] = [
+    allUsers[1],
+];
 
 
 

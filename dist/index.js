@@ -30,4 +30,55 @@ const words = [];
 // const words = [] as string[];
 // words.push(1);
 words.push('1');
+//words.push = (true);
 console.log(words);
+const jonas = {
+    name: 'Jonas',
+    age: 99,
+    isMaried: true,
+    favoriteColor: '',
+};
+console.log(jonas);
+jonas.favoriteColor = 'red';
+console.log(jonas);
+const allUsers = [
+    {
+        name: 'Jonas',
+        age: 99,
+        isMarried: true,
+        houseInfo: {
+            city: 'Baisogala',
+            street: 'Gedemino str.',
+            footage: 500,
+        },
+        favoriteFood: [
+            { name: 'Food-1', size: 'small' },
+            { name: 'Food-2', size: 'medium' },
+            { name: 'Food-3', size: 'large' },
+            { name: 'Food-4', size: 'large' },
+        ],
+    },
+    {
+        name: 'Maryte',
+        age: 88,
+        isMarried: true,
+        houseInfo: {
+            city: 'Baisogala',
+            street: 'Gedemino str.',
+            footage: 500,
+            floors: 3,
+            rooms: 7,
+        },
+        favoriteFood: [
+            { name: 'Food-1', size: 'small' },
+            { name: 'Food-2', size: 'medium' },
+            { name: 'Food-3', size: 'large' },
+        ],
+    },
+];
+const inactiveUser = [
+    allUsers[0],
+];
+const activeUser = [
+    allUsers[1],
+];

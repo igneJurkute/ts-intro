@@ -45,7 +45,7 @@ export class Shop {
     findProductById(productId) {
         let foundProduct = null;
         for (const product of this.inventor) {
-            if (product.id === productId) {
+            if (product.getId() === productId) {
                 foundProduct = product;
                 break;
             }
@@ -67,10 +67,10 @@ export class Shop {
             return [err, result];
         }
         const foundProduct = result;
-        if (foundProduct.amount < amount) {
-            return [true, `❌ Nera norimo ${foundProduct.name} kiekio: nori ${amount}; turim ${foundProduct.amount}.`];
+        const isSold = foundProduct.reduceAmount(amount);
+        if (!isSold) {
+            return [true, `❌ Nera norimo ${foundProduct.getName()} kiekio: nori ${amount}; turim ${foundProduct.getAmount()}.`];
         }
-        foundProduct.amount -= amount;
         return [false, '✅ Preke parduota'];
     }
     /**
@@ -84,7 +84,7 @@ export class Shop {
             return [err, result];
         }
         const foundProduct = result;
-        foundProduct.amount = 0;
+        foundProduct.drop();
         return [false, '✅ Atsikratytas prekes likutis'];
     }
     /**
@@ -99,7 +99,7 @@ export class Shop {
             return [err, result];
         }
         const foundProduct = result;
-        foundProduct.amount += amount;
+        foundProduct.increaseAmount(amount);
         return [false, '✅ Preke papildyta'];
     }
     summary() {

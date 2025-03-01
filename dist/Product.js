@@ -18,5 +18,29 @@ class Product {
         this.amount = amount;
         this.secret = 'SECRET!!!!';
     }
+    getId() {
+        return this.id;
+    }
+    getName() {
+        return this.name;
+    }
+    getAmount() {
+        return this.amount;
+    }
+    reduceAmount(amount) {
+        if (this.amount < amount) {
+            return false;
+        }
+        this.amount -= amount;
+        return true;
+    }
+    drop() {
+        this.amount = 0;
+    }
+    increaseAmount(amount) {
+        if (amount > 0) {
+            this.amount += amount;
+        }
+    }
 }
 export { Product };

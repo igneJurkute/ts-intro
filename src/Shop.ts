@@ -23,7 +23,7 @@ export class Shop {
         this.inventor = [];
     }
 
-    intro() {
+    intro(): string {
         return `Sveiki atvyke i ${this.name}!`;
     }
 
@@ -36,7 +36,7 @@ export class Shop {
      * @param {number} amount Kiekis vienetais
      * @returns {[boolean, string]} Pranesimas apie produkto pridejima i inventoriu; Boolean - ar kylo klaidu? String - pranesimo tekstas.
      */
-    addProduct(name, buyPrice, sellPrice, amount) {
+    addProduct(name: string, buyPrice: number, sellPrice: number, amount: number): [boolean, string] {
         const product = new Product(++this.lastProductId, name, buyPrice, sellPrice, amount);
         this.inventor.push(product);
 
@@ -48,11 +48,11 @@ export class Shop {
      * @param {number} productId
      * @returns {[boolean, string | Product]} Pranesimas apie produkta is inventoriaus; Boolean - ar kylo klaidu? String - pranesimo tekstas; Product - produkto objektas.
      */
-    findProductById(productId) {
+    findProductById(productId: number): [boolean, string | Product] {
         let foundProduct = null;
 
         for (const product of this.inventor) {
-            if (product.id === productId) {
+            if (product.getId() === productId) {
                 foundProduct = product;
                 break;
             }
@@ -71,18 +71,18 @@ export class Shop {
      * @param {number} amount 
      * @returns {[boolean, string]} Pranesimas apie produkto pridejima i inventoriu; Boolean - ar kylo klaidu? String - pranesimo tekstas.
      */
-    sellProduct(productId, amount) {
+    sellProduct(productId: number, amount: number): [boolean, string] {
         const [err, result] = this.findProductById(productId);
         if (err) {
-            return [err, result];
+            return [err, result] as [boolean, string];
         }
 
-        const foundProduct = result;
-        if (foundProduct.amount < amount) {
-            return [true, `❌ Nera norimo ${foundProduct.name} kiekio: nori ${amount}; turim ${foundProduct.amount}.`];
-        }
+        const foundProduct = result as Product;
+        const isSold = foundProduct.reduceAmount(amount);
 
-        foundProduct.amount -= amount;
+        if (!isSold) {
+            return [true, `❌ Nera norimo ${foundProduct.getName()} kiekio: nori ${amount}; turim ${foundProduct.getAmount()}.`];
+        }
 
         return [false, '✅ Preke parduota'];
     }
@@ -91,14 +91,14 @@ export class Shop {
      * @param {number} productId
      * @returns {[boolean, string]} Pranesimas apie produkto pasalinima is inventoriaus; Boolean - ar kylo klaidu? String - pranesimo tekstas.
      */
-    dropProduct(productId) {
+    dropProduct(productId: number): [boolean, string] {
         const [err, result] = this.findProductById(productId);
         if (err) {
-            return [err, result];
+            return [err, result] as [boolean, string];
         }
 
-const foundProduct = result;
-foundProduct.amount = 0;
+        const foundProduct = result as Product;
+        foundProduct.drop();
 
 return [false, '✅ Atsikratytas prekes likutis'];
 }
@@ -109,14 +109,14 @@ return [false, '✅ Atsikratytas prekes likutis'];
  * @param {number} amount 
  * @returns {[boolean, string]} Pranesimas apie produkto papildyma inventoriuje; Boolean - ar kylo klaidu? String - pranesimo tekstas.
  */
-fillInventor(productId, amount) {
+fillInventor(productId: number, amount: number): [boolean, string] {
     const [err, result] = this.findProductById(productId);
     if (err) {
-        return [err, result];
+        return [err, result] as [boolean, string];
     }
 
-    const foundProduct = result;
-    foundProduct.amount += amount;
+    const foundProduct = result as Product;
+    foundProduct.increaseAmount(amount);
 
     return [false, '✅ Preke papildyta'];
 }

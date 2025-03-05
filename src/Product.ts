@@ -24,11 +24,22 @@ class Product {
     getId() {
         return this.id;
     }
+    getDetails() {
+        return {
+            name: this.name,
+            acquisitionPrice: this.acquisitionPrice,
+            sellingPrice: this.sellingPrice,
+            amount: this.amount,
+        };
+    }
     getName() {
         return this.name;
     }
     getAmount() {
         return this.amount;
+    }
+    getSellingPrice() {
+        return this.sellingPrice;
     }
     reduceAmount(amount) {
         if (this.amount < amount) {

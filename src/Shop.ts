@@ -6,6 +6,7 @@ export class Shop {
     private currency: string;
     private lastProductId: number;
     private inventor: Product[];
+    private profit: number;
 
     /**
      * 
@@ -13,14 +14,11 @@ export class Shop {
      * @param {string} currency Valiuta, kuria prekiaujame parduotuveje
      */
     constructor(name: string, currency: string) {
-        /** @type {string} name */
         this.name = name;
-        /** @type {string} currency */
         this.currency = currency;
-        /** @type {number} lastProductId */
         this.lastProductId = 0;
-        /** @type {Product[]} inventor */
         this.inventor = [];
+        this.profit = 0;
     }
 
     intro(): string {
@@ -84,7 +82,10 @@ export class Shop {
             return [true, `❌ Nera norimo ${foundProduct.getName()} kiekio: nori ${amount}; turim ${foundProduct.getAmount()}.`];
         }
 
-        return [false, '✅ Preke parduota'];
+        const { sellingPrice, acquisitionPrice } = foundProduct.getDetails();
+        this.profit += amount * (sellingPrice - acquisitionPrice);
+
+        return [false, '✅ Preke parduota ' + this.profit];
     }
     /**
      * 
@@ -121,6 +122,20 @@ fillInventor(productId: number, amount: number): [boolean, string] {
     return [false, '✅ Preke papildyta'];
 }
 
+formatMoney(money: number): string {
+    // return `${money.toFixed(2)} ${this.currency}`;
+
+    let str = '' + money;
+
+    if (money % 1 === 0) {
+        str += `.00`;
+    } else if (money * 10 % 1 === 0) {
+        str += `0`;
+    }
+
+    return `${str} ${this.currency}`;
+}
+
 summary() {
     const listStrings = [];
     const title = `Parduotuves "${this.name}" ataskaita:`;
@@ -129,8 +144,9 @@ summary() {
     if (this.inventor.length) {
         let i = 0;
 
-        for (const { name, acquisitionPrice, sellingPrice, amount } of this.inventor) {
-            listStrings.push(`${++i}) ${name}: ${acquisitionPrice}; ${sellingPrice}; ${amount};`);
+        for (const product of this.inventor) {
+            const { name, acquisitionPrice, sellingPrice, amount } = product.getDetails();
+            listStrings.push(`${++i}) ${name}: ${this.formatMoney(acquisitionPrice)}; ${this.formatMoney(sellingPrice)}; ${amount} vnt;`);
         }
 
         list = listStrings.join('\r\n');
@@ -156,9 +172,9 @@ console.log(kioskas.summary());
 
 const [err0, msg0] = kioskas.addProduct('Svogunas', 6, 66, 666);
 console.log(err0, msg0);
-const [err1, msg1] = kioskas.addProduct('Labai raudonas pomidoras', 1, 2, 10);
+const [err1, msg1] = kioskas.addProduct('Labai raudonas pomidoras', 1.5, 2.5, 10);
 console.log(err1, msg1);
-const [err2, msg2] = kioskas.addProduct('Agurkas', 0.5, 1.5, 20);
+const [err2, msg2] = kioskas.addProduct('Agurkas', 0.49, 1.49, 20);
 console.log(err2, msg2);
 
 const [err3, msg3] = kioskas.sellProduct(999, 5);
@@ -167,6 +183,10 @@ const [err4, msg4] = kioskas.sellProduct(2, 25);
 console.log(err4, msg4);
 const [err5, msg5] = kioskas.sellProduct(2, 5);
 console.log(err5, msg5);
+const [err5_2, msg5_2] = kioskas.sellProduct(2, 5);
+console.log(err5_2, msg5_2);
+const [err5_3, msg5_3] = kioskas.sellProduct(2, 5);
+console.log(err5_3, msg5_3);
 const [err6, msg6] = kioskas.dropProduct(1);
 console.log(err6, msg6);
 const [err7, msg7] = kioskas.fillInventor(1, 50);

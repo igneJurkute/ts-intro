@@ -7,18 +7,40 @@ export class Dealer {
         console.log(`Hi, my name is ${name}!`);
     }
     formatPrice(price) {
-        if (price % 1 === 0) {
-            return `${(price / 1000).toFixed(3)} ${this.currency}`;
+        const tukstanciai = price >= 1000 ? Math.trunc(price / 1000) : 0;
+        const simtai = Math.trunc(price % 1000);
+        const centai = Math.round((price * 100) % 100);
+        let priceString = '' + simtai;
+        if (centai < 10 && centai > 0) {
+            priceString += ',0' + centai;
         }
-        if (price < 1000) {
+        if (centai >= 10) {
+            priceString += ',' + centai;
         }
-        // 0.99 -> 0,99
-        // 999.99 -> 999,99
-        // 5100.99 -> 5.100,99
-        // tukstanciai + . + simtai + , + centai
-        return `${price} ${this.currency}`;
+        if (tukstanciai > 0) {
+            if (simtai < 10) {
+                priceString = '0' + priceString;
+            }
+            if (simtai < 100) {
+                priceString = '0' + priceString;
+            }
+            priceString = tukstanciai + '.' + priceString;
+        }
+        return `${priceString} ${this.currency}`;
+    }
+    formatPrice2(price) {
+        const cents = price % 1 !== 0 ? 2 : 0;
+        let priceStr = price.toFixed(cents).replace('.', ',');
+        if (cents && priceStr.length > 6) {
+            priceStr = priceStr.slice(0, -6) + '.' + priceStr.slice(-6);
+        }
+        if (!cents && priceStr.length > 3) {
+            priceStr = priceStr.slice(0, -3) + '.' + priceStr.slice(-3);
+        }
+        return `${priceStr} ${this.currency}`;
     }
     getCar(carName, carPrice) {
+        // return `New car everyone! ${carName} for only ${this.formatPrice(carPrice)}!`;
         return `New car everyone! ${carName} for only ${this.formatPrice(carPrice)}!`;
     }
 }

@@ -7,6 +7,18 @@ const bandis = new Dealer('Al Bundy', 'EUR');
 const chuck = new Dealer('Chuck Norris');
 // Hi, my name is Al Bundy!
 console.log(bandis.getCar('Volvo', 15_000));
+console.log(bandis.getCar('Volvo', 0.01));
+console.log(bandis.getCar('Volvo', 0.1));
+console.log(bandis.getCar('Volvo', 1));
+console.log(bandis.getCar('Volvo', 1.1));
+console.log(bandis.getCar('Volvo', 1.01));
+console.log(bandis.getCar('Volvo', 1000));
+console.log(bandis.getCar('Volvo', 1001));
+console.log(bandis.getCar('Volvo', 1010));
+console.log(bandis.getCar('Volvo', 1100));
+console.log(bandis.getCar('Volvo', 12_345.89));
+console.log(bandis.getCar('Volvo', 1_002.03));
+console.log(bandis.getCar('Volvo', 10_002.03));
 // New car everyone! Volvo for only 15.000 EUR!
 console.log(bandis.getCar('Vokswagen Passat', 19_999.99));
 // New car everyone! Passat for only 19.999,99 EUR!
